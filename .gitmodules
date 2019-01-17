@@ -1,0 +1,3 @@
+[submodule "vim-reasonml"]
+	path = vim-reasonml
+	url = https://github.com/jordwalke/vim-reasonml
