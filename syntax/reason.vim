@@ -17,6 +17,14 @@ endif
 syn keyword   reasonConditional try switch if else for while
 syn keyword   reasonOperator    as to downto
 
+" From xolox shell
+" URL = escape('\<\w\{3,}://\(\(\S\&[^"]\)*\w\)\+[/?#]\?', '/')
+" == \<\w\{3,}:\/\/\(\(\S\&[^"]\)*\w\)\+[\/?#]\?
+" MAIL=- escape('\<\w[^@ \t\r<>]*\w@\w[^@ \t\r<>]\+\w\>', '/') 
+" == \<\w[^@ \t\r<>]*\w@\w[^@ \t\r<>]\+\w\>
+
+syntax match reasonCommentURL /\<\w\{3,}:\/\/\(\(\S\&[^"]\)*\w\)\+[\/?#]\?/ contained containedin=reasonCommentLine,reasonComment,reasonCommentBlockDoc,reasonString,reasonMultilineString
+syntax match reasonCommentMail /\<\w[^@ \t\r<>]*\w@\w[^@ \t\r<>]\+\w\>/ contained containedin=reasonCommentLine,reasonComment,reasonCommentBlockDoc,reasonString,reasonMultilineString
 " syn keyword   reasonKeyword     fun nextgroup=reasonFuncName skipwhite skipempty
 syn match     reasonAssert      "\<assert\(\w\)*"
 syn match     reasonFailwith    "\<failwith\(\w\)*"
@@ -89,7 +97,8 @@ syn keyword   reasonBoolean     true false
 " [:upper:] as it depends upon 'noignorecase'
 "syn match     reasonCapsIdent    display "[A-Z]\w\(\w\)*"
 
-syn match     reasonOperator     display "\%(+\|-\|/\|*\|=\|\^\|&\||\|!\|>\|<\|%\)=\?"
+syn match     reasonOperator     display "\%(@\|+\|-\|/\|*\|=\|\^\|&\||\|!\|>\|<\|%\)=\?"
+syn match     reasonOperator     display "\~\%(@\|+\|-\|/\|*\|=\|\^\|&\||\|!\|>\|<\|%\|\~\)=\?"
 " This one isn't *quite* right, as we could have binary-& with a reference
 
 " This isn't actually correct; a closure with no arguments can be `|| { }`.
@@ -216,6 +225,10 @@ hi def link reasonTodo          Todo
 hi def link reasonAttribute     PreProc
 hi def link reasonStorage       Keyword
 hi def link reasonObsoleteStorage Error
+
+
+highlight def link reasonCommentURL Underlined
+highlight def link reasonCommentMail Underlined
 
 syn sync minlines=200
 syn sync maxlines=500
